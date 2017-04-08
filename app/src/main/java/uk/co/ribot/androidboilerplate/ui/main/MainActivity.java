@@ -7,8 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -23,12 +26,30 @@ import uk.co.ribot.androidboilerplate.util.DialogFactory;
 public class MainActivity extends BaseActivity implements MainMvpView {
 
     private static final String EXTRA_TRIGGER_SYNC_FLAG =
-            "uk.co.ribot.androidboilerplate.ui.main.MainActivity.EXTRA_TRIGGER_SYNC_FLAG";
+            "uk.co.ribot.androidboilerplate.ui.main.ImageViewActivity.EXTRA_TRIGGER_SYNC_FLAG";
 
     @Inject MainPresenter mMainPresenter;
-    @Inject RibotsAdapter mRibotsAdapter;
+    @Inject
+    RedditsAdapter mRedditsAdapter;
 
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+
+    private static final Map<String, String> redditMap;
+    static
+    {
+        redditMap = new HashMap<String, String>();
+        redditMap.put("Alternative Art", "alternativeart");
+        redditMap.put("Pics", "pics");
+        redditMap.put("Gifs", "gifs");
+        redditMap.put("Advice Animals", "adviceanimals");
+        redditMap.put("Cats", "cats");
+        redditMap.put("Images", "images");
+        redditMap.put("Photoshop Battles", "photoshopbattles");
+        redditMap.put("Hmmm", "hmmm");
+        redditMap.put("All", "all");
+        redditMap.put("Aww", "aww");
+
+    }
 
     /**
      * Return an Intent to start this Activity.
@@ -48,7 +69,14 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mRecyclerView.setAdapter(mRibotsAdapter);
+        List<String>keys = new ArrayList<String>();
+        for(String s: redditMap.keySet()){
+            keys.add(s);
+        }
+
+        mRedditsAdapter.setReddits(keys);
+
+        mRecyclerView.setAdapter(mRedditsAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mMainPresenter.attachView(this);
         mMainPresenter.loadRibots();
@@ -65,25 +93,11 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         mMainPresenter.detachView();
     }
 
-    /***** MVP View methods implementation *****/
-
-    @Override
-    public void showRibots(List<Ribot> ribots) {
-        mRibotsAdapter.setRibots(ribots);
-        mRibotsAdapter.notifyDataSetChanged();
-    }
-
     @Override
     public void showError() {
         DialogFactory.createGenericErrorDialog(this, getString(R.string.error_loading_ribots))
                 .show();
     }
 
-    @Override
-    public void showRibotsEmpty() {
-        mRibotsAdapter.setRibots(Collections.<Ribot>emptyList());
-        mRibotsAdapter.notifyDataSetChanged();
-        Toast.makeText(this, R.string.empty_ribots, Toast.LENGTH_LONG).show();
-    }
 
 }

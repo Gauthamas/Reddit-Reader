@@ -7,10 +7,6 @@ import uk.co.ribot.androidboilerplate.ui.base.MvpView;
 
 public interface MainMvpView extends MvpView {
 
-    void showRibots(List<Ribot> ribots);
-
-    void showRibotsEmpty();
-
     void showError();
 
 }

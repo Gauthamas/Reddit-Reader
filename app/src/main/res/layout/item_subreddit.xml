@@ -16,30 +16,24 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <View
-            android:id="@+id/view_hex_color"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:background="@android:color/holo_blue_dark" />
-
         <TextView
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/view_hex_color"
+            android:layout_marginRight="10dp"
             android:textSize="@dimen/text_body"
             tools:text="Antony Ribot" />
 
-        <TextView
-            android:id="@+id/text_email"
+        <ImageView
+            android:id="@+id/favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_name"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/view_hex_color"
-            android:textSize="@dimen/text_small_body"
-            tools:text="developer" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_favorite_border_black_24dp"
+
+
+            />
 
     </RelativeLayout>
 
